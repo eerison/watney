@@ -48,9 +48,11 @@ function audioDeviceChange() {
 let reconnecting = false;
 function connectJanus() {
     var server = "https://" + window.location.hostname + ":8089/janus";
-    
+    //var server = "http://" + window.location.hostname + ":8088/janus";
+
     janusConnection = new Janus({
         server: server,
+	iceServers : [{url:'stun:local.erison.work'}],
         success: function () {
             if (reconnecting) {
                 // Can't get the sound feed to re-establish on onJanusConnected so just refresh

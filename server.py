@@ -38,6 +38,23 @@ offCharger = None
 async def getPageHTML(request):
     return web.FileResponse("index.html")
 
+@routes.get("/audios")
+async def getAudios(request):
+    files = os.listdir('/home/pi/audios')
+    return web.json_response(files)
+
+@routes.post("/audios/play")
+async def playAudio(request):
+    json = await request.json()
+    fileName = json['value']
+    fileFullPath = '/home/pi/audios/' + fileName
+
+    if not os.path.exists(fileFullPath):
+        return web.Response(status=404, text="file does not exist.")
+    
+    call("/home/pi/watney/playaudio.sh " + fileName, shell=True)
+
+    return web.Response(text="OK")
 
 @routes.post("/sendCommand")
 async def setCommand(request):

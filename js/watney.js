@@ -402,3 +402,36 @@ function syncLights() {
         $("div#lightsButton > i").text("flash_off");
     }
 }
+
+//Play audio
+$.ajax({                                              
+       	url: '/audios',
+	type: "GET",
+	dataType: "json"
+}).done(function (data) {
+	$.each(data, function(i, p) {
+    		$('#playaudioSelector').append($('<option></option>').val(p).html(p));
+	});
+});
+
+$(document).on('change','#playaudioSelector', function(){
+    var value = this.value;
+
+    if(value === "0"){
+    	return;
+    }
+    
+    $("#playaudioSelector").prop('disabled', true);
+    
+    $.ajax({                                              
+        url: '/audios/play',                            
+        type: "POST",
+        data: JSON.stringify({ value }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+	complete: function(){
+		$("#playaudioSelector").prop('disabled', false);
+	}
+
+    });
+});
