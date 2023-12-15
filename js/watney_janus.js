@@ -52,7 +52,7 @@ function connectJanus() {
 
     janusConnection = new Janus({
         server: server,
-	iceServers : [{url:'stun:local.erison.work'}],
+ 	//iceServers : [{url:'stun:local.erison.work'}],
         success: function () {
             if (reconnecting) {
                 // Can't get the sound feed to re-establish on onJanusConnected so just refresh
